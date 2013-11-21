@@ -1,0 +1,44 @@
+{
+  "manifest_version": 2,
+
+  "name": "Drag and Go",
+  "description": "Drag url, image, text for open or search in new tab",
+  "version": "0.1.0",
+  //"default_locale": "en",
+  
+  "author":"Ray Tseng(mutarock)", 
+
+  "permissions": [
+    "tabs"
+  ],
+
+  // "browser_action": {
+  //   "default_icon": "icon.png",
+  //   "default_popup": "popup.html"
+  // },
+
+  // "page_action": {
+  //   "default_icon": {                    // optional
+  //     "19": "images/icon19.png",           // optional
+  //     "38": "images/icon38.png"            // optional
+  //   },
+  //   "default_title": "Google Mail",      // optional; shown in tooltip
+  //   "default_popup": "popup.html"        // optional
+  // },
+
+  "background": {
+      "scripts": [ "js/common.js", "js/background.js" ]
+   },
+
+  "options_page": "html/options.html", 
+
+  "content_scripts": [{
+    "js": [ "js/lib/jquery-1.10.2.js", "js/lib/jquery-ui.min.js", "js/exec.js" ],
+    "matches": ["<all_urls>"],
+    "run_at": "document_end"
+    //"run_at": "document_start"
+  }]
+  
+
+
+}

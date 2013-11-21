@@ -1,0 +1,49 @@
+@CHARSET "UTF-8";
+
+* {
+    padding: 0px;
+    margin: 0px;
+}
+
+li {
+    list-style: none;
+}
+
+body {
+    color: #33639E;
+    font-size: 14px;
+    font-family: Georgia;
+    line-height: 1.5em;
+}
+
+a {
+    color: #33639E;
+}
+
+a:hover {
+    color: #33639E;
+    text-decoration: none;
+}
+
+header {
+    text-align: center;
+}
+
+header h1 {
+    font-size: 2em;
+    font-weight: bolder;
+    text-shadow: 1px 1px 1px #000;
+    margin: 20px 0px;
+}
+
+/*header h1 span {
+    background: 0px 0px url('./32.png') no-repeat;
+    padding-left: 40px;
+}*/
+
+div.main {
+    background-color: #D2E1F6;
+    border: 1px #ABC9ED solid;
+    margin: 0px 60px;
+    border-radius: 10px;
+}
