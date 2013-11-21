@@ -2,12 +2,13 @@
 <html>
 <head>
 <title>Drag and Go Extension Options</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <link type="text/css" rel="StyleSheet" href="/css/style.css">
+<link type="text/css" rel="StyleSheet" href="/css/smoothness/jquery-ui-1.10.3.custom.min.css">
 <link type="text/css" rel="StyleSheet" href="/css/tab.webfx.css">
 <link type="text/css" rel="StyleSheet" href="/css/options.css">
 <script type="text/javascript" src="/js/lib/jquery-1.10.2.min.js"></script>
-<script type="text/javascript" src="/js/lib/jquery-ui.min.js"></script>
-<script type="text/javascript" src="/js/lib/tabpane.js"></script>
+<script type="text/javascript" src="/js/lib/jquery-ui-1.10.3.smoothness.min.js"></script>
 <script type="text/javascript" src="/js/options.js"></script>
 </head>
 
@@ -19,26 +20,25 @@
 		</h1>
 	</header>
     
-    <div class="tab-pane" id="tab-pane-1">
-        <div class="tab-page">
-            <h2 class="tab" id="Link">Link</h2>
-            <div id="about_nicoDLM" class="clearfix">
-            </div>
+    
+    <div id="tabs">
+        <ul>
+            <li><a href="#tabs-1">Link</a></li>
+            <li><a href="#tabs-2">Text</a></li>
+            <li><a href="#tabs-3">Image</a></li>
+            <li><a href="#tabs-4">About</a></li>
+        </ul>
+        <div id="tabs-1">
+            <p>tab1</p>
         </div>
-        <div class="tab-page">
-            <h2 class="tab" id="Text">Text</h2>
-            <div id="about_nicoDLM" class="clearfix">
-            </div>
+        <div id="tabs-2">
+            <p>tab2</p>
         </div>
-        <div class="tab-page">
-            <h2 class="tab" id="Image">Image</h2>
-            <div id="about_nicoDLM" class="clearfix">
-            </div>
+        <div id="tabs-3">
+            <p>tab3</p>
         </div>
-        <div class="tab-page">
-            <h2 class="tab" id="About">About</h2>
-            <div id="about_nicoDLM" class="clearfix">
-            </div>
+        <div id="tabs-4">
+            <p>tab4</p>
         </div>
     </div>
 

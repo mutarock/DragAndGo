@@ -1,5 +1,7 @@
 $(document).ready(function(e) {
-
+    // 分頁
+    $( "#tabs" ).tabs(function(){ console.log(1); });
+    
     // $('#my_form input[type="submit"]').click( function(e) {
     //     e.preventDefault();
         
