@@ -171,3 +171,19 @@ span#export_link {
 #dl_quality_action {
     margin-top: 4px;
 }
+
+fieldset {
+    text-align: left;
+}
+
+legend {
+    width:250px;
+}
+
+select {
+    margin-right:10px;
+}
+
+select option {
+
+}
