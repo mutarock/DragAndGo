@@ -1,6 +1,55 @@
+var TH = new THK.TmplHelper({ url: '/js/tmpl/' });
+
+tmpl.helper += ",log=function(){console.log.apply(console, arguments)}" +
+    ",st='',stream=function(cb){var l=st.length;st=_s;cb( _s.slice(l));}";
+
 $(document).ready(function(e) {
     // 分頁
     $( "#tabs" ).tabs(function(){ console.log(1); });
+    
+    // load tmpl files
+    TH.import_tmpl(['simple_option'], function(r) {
+        var opts = {
+            legend: 'Gesture for draging Link',
+            up: {
+                title: 'UP: ',
+                option: [
+                    {value: '0', title: '前景'},
+                    {value: '1', title: '背景'},
+                    {value: '2', title: '無動作'}
+                ]
+            },
+            down: {
+                title: 'DOWN: ',
+                option: [
+                    {value: '0', title: '前景'},
+                    {value: '1', title: '背景'},
+                    {value: '2', title: '無動作'}
+                ]
+            },
+            right: {
+                title: 'RIGHT: ',
+                option: [
+                    {value: '0', title: '前景'},
+                    {value: '1', title: '背景'},
+                    {value: '2', title: '無動作'}
+                ]
+            },
+            left: {
+                title: 'LEFT: ',
+                option: [
+                    {value: '0', title: '前景'},
+                    {value: '1', title: '背景'},
+                    {value: '2', title: '無動作'}
+                ]
+            }
+        };
+    
+        var content = tmpl('template-simple_option', opts);
+        console.log(content);
+        $('#tabs-1, #tabs-2, #tabs-3').html(content);
+    });
+    
     
     // $('#my_form input[type="submit"]').click( function(e) {
     //     e.preventDefault();

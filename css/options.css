@@ -142,9 +142,9 @@ div.inner_div3 { float:left; width:140px; height:114px; padding:3px; position:re
 label {
     float: left;
     text-align: left;
-    margin-left: 8px;
-    width: 90px;
-    padding-top: 6px;
+    margin-left: 0;
+    width: 120px;
+    padding-top: 0;
     font-size: 1.1em;
 }
 
@@ -186,4 +186,15 @@ select {
 
 select option {
 
+}
+
+
+/*  */
+ul li.o_item {
+  height: 33px;
+  line-height: 33px;
+}
+
+select.opt_action {
+  width: 200px;
 }
