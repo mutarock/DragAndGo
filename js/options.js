@@ -4,6 +4,7 @@ tmpl.helper += ",log=function(){console.log.apply(console, arguments)}" +
     ",st='',stream=function(cb){var l=st.length;st=_s;cb( _s.slice(l));}";
 
 $(document).ready(function(e) {
+    
     // 分頁
     $( "#tabs" ).tabs(function(){ console.log(1); });
     
@@ -32,7 +33,9 @@ $(document).ready(function(e) {
         ];
         
         var engine_option = [
-            {value: '0', title: 'Google'}
+            {value: '0', title: 'Google'},
+            {value: '1', title: 'Yahoo'},
+            {value: '2', title: 'Wiki'}
         ];
         
         // namespace
@@ -77,78 +80,31 @@ $(document).ready(function(e) {
 
             var content = tmpl('template-simple_option', opts);
             $('#tabs-'+i).html(content);
+            // .on('change', function(e) {
+            //     //console.log( "change Link_selected_mode_1");
+            //     console.log(e.target.value);
+            //     save_Image_selected_mode(1, e.target.value);
+            // });
         }
     });
     
     
-    // $('#my_form input[type="submit"]').click( function(e) {
-    //     e.preventDefault();
-        
-    //     $('#result').html( $('#my_form input[type="text"]').val() );
-    // });
-
-    /* Set Link select listener */
-    $("#Link_selected_mode_0").on('change', function(e) {
-        //console.log("change Link_selected_mode_0");
-        console.log(e.target.value);
-        save_Link_selected_mode(0, e.target.value);
-    });
-
-
-    $("#Link_selected_mode_1").on('change', function(e) {
-        //console.log( "change Link_selected_mode_1");
-        console.log(e.target.value);
-        save_Link_selected_mode(1, e.target.value);
-    });
-
-    /* Set Text select listener */
-    $("#Text_selected_mode_0").on('change', function(e) {
-        //console.log("change Link_selected_mode_0");
-        console.log(e.target.value);
-        save_Text_selected_mode(0, e.target.value);
-    });
-
-
-    $("#Text_selected_mode_1").on('change', function(e) {
-        //console.log( "change Link_selected_mode_1");
-        console.log(e.target.value);
-        save_Text_selected_mode(1, e.target.value);
-    });
-
-    /* Set Image select listener */
-    $("#Image_selected_mode_0").on('change', function(e) {
-        //console.log("change Link_selected_mode_0");
-        console.log(e.target.value);
-        save_Image_selected_mode(0, e.target.value);
-    });
-
-
-    $("#Image_selected_mode_1").on('change', function(e) {
-        //console.log( "change Link_selected_mode_1");
-        console.log(e.target.value);
-        save_Image_selected_mode(1, e.target.value);
-    });
-
+    // localSettings, if not exist, it will return default value
     var localSettings = getLocal();
-    set_Link_selected_mode(localSettings);
-    set_Text_selected_mode(localSettings);
-    set_Image_selected_mode(localSettings);
+    restoreOption(localSettings);
+    
 });
 
 
+function restoreOption(settings) {
+    set_Link_selected_mode(localSettings);
+    set_Text_selected_mode(localSettings);
+    set_Image_selected_mode(localSettings);
+}
 
 function set_Link_selected_mode(settings) {
-    $("#Link_selected_mode_0")
-    .append('<option value="0">前景</option>')
-    .append('<option value="1">背景</option>')
-    .append('<option value="2">無動作</option>')
-    .val(settings.LinkActiveMode[0]);
-
-    $("#Link_selected_mode_1")
-    .append('<option value="0">前景</option>')
-    .append('<option value="1">背景</option>')
-    .append('<option value="2">無動作</option>')
-    .val(settings.LinkActiveMode[1]);
+    var link_mode = settings.LinkActiveMode;
+    //$().val = link_mode[];
 }
 
 function save_Link_selected_mode(index, value) {
@@ -158,17 +114,8 @@ function save_Link_selected_mode(index, value) {
 }
 
 function set_Text_selected_mode(settings) {
-    $("#Text_selected_mode_0")
-    .append('<option value="0">前景</option>')
-    .append('<option value="1">背景</option>')
-    .append('<option value="2">無動作</option>')
-    .val(settings.TextActiveMode[0]);
-
-    $("#Text_selected_mode_1")
-    .append('<option value="0">前景</option>')
-    .append('<option value="1">背景</option>')
-    .append('<option value="2">無動作</option>')
-    .val(settings.TextActiveMode[1]);
+    var text_mode = settings.TextActiveMode;
+    //$().val = text_mode[];
 }
 
 function save_Text_selected_mode(index, value) {
@@ -178,17 +125,8 @@ function save_Text_selected_mode(index, value) {
 }
 
 function set_Image_selected_mode(settings) {
-   $("#Image_selected_mode_0")
-    .append('<option value="0">前景</option>')
-    .append('<option value="1">背景</option>')
-    .append('<option value="2">無動作</option>')
-    .val(settings.ImageActiveMode[0]);
-
-    $("#Image_selected_mode_1")
-    .append('<option value="0">前景</option>')
-    .append('<option value="1">背景</option>')
-    .append('<option value="2">無動作</option>')
-    .val(settings.ImageActiveMode[1]);
+    var image_mode = settings.ImageActiveMode;
+    //$().val = image_mode[];
 }
 
 function save_Image_selected_mode(index, value) {

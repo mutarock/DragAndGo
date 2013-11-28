@@ -1,0 +1,12 @@
+{
+	// "extName":
+	// {
+	// 	"message": "Nico DL Manager",
+	// 	"description":"擴充套件名稱"
+	// },
+	"extDescription":
+	{
+		"message": "使用拖動手勢開啟新分頁",
+		"description":"擴充套件描述"
+	}
+}

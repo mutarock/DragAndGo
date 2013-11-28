@@ -1,10 +1,14 @@
 {
   "manifest_version": 2,
+  "default_locale": "en",
+  //"default_locale": "zh_TW",
 
   "name": "Drag and Go",
-  "description": "Drag url, image, text for open or search in new tab",
+  //"name": "__MSG_extName__",
+  "description": "__MSG_extDescription__",
+  //"description": "Drag url, image, text for open or search in new tab",
+
   "version": "0.1.0",
-  //"default_locale": "en",
   
   "author":"Ray Tseng(mutarock)", 
 

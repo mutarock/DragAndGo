@@ -12,7 +12,7 @@ function getLocal() {
 function getDefault() {
     return {
         "activeMode" : 1,
-        "LinkActiveMode" : [0, 1, 0, 0],
+        "LinkActiveMode" : [0, 1, 0, 0],  // [UP, DOWN,RIGHT, LEFT]
         "TextActiveMode" : [0, 1, 0, 0],
         "ImageActiveMode" : [0, 1, 0, 0],
         "searchEngines" : [0, 0, 0, 0]
