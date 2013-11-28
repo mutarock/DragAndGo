@@ -111,7 +111,7 @@ function restoreOption(settings) {
     set_Link_selected_mode(localSettings);
     set_Text_selected_mode(localSettings);
     set_Image_selected_mode(localSettings);
-});
+};
 
 function restoreSettings() {
     //console.log(localStorage);
