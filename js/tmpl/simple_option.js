@@ -13,6 +13,17 @@
                 <option value="{%=o[key].option[i]['value']%}">{%=o[key].option[i]['title']%}</option>
             {% } %}
             </select>
+            
+            {% if(o[key].engine_title) { %}
+                <label class="lb_engine">{%=o[key].engine_title%}</label>
+            {% } %}
+            {% if(o[key].engine_option) { %}
+                <select class="opt_engine_action">
+                {% for(var i in o[key].engine_option) { %}
+                    <option value="{%=o[key].engine_option[i]['value']%}">{%=o[key].engine_option[i]['title']%}</option>
+                {% } %}
+                </select>
+            {% } %}
         </li>
         {% } %}
     {% } %}

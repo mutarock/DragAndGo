@@ -191,10 +191,28 @@ select option {
 
 /*  */
 ul li.o_item {
-  height: 33px;
-  line-height: 33px;
+    height: 33px;
+    line-height: 33px;
 }
 
 select.opt_action {
-  width: 200px;
+    width: 200px;
+    float: left;
+    height: 24px;
+    padding: 0px;
+    margin: 5px 0px 0px 0px;
+}
+
+select.opt_engine_action {
+    width: 100px;
+    float: left;
+    height: 24px;
+    padding: 0px;
+    margin: 5px 0px 0px 0px;
+}
+
+label.lb_engine {
+    padding: 0;
+    margin: 0 0 0 10px;
+    width: 60px;
 }

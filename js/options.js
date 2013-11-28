@@ -17,6 +17,10 @@ $(document).ready(function(e) {
                     {value: '0', title: '前景'},
                     {value: '1', title: '背景'},
                     {value: '2', title: '無動作'}
+                ],
+                engine_title: '引擎:',
+                engine_option: [
+                    {value: '0', title: 'Google'}
                 ]
             },
             down: {
@@ -25,6 +29,10 @@ $(document).ready(function(e) {
                     {value: '0', title: '前景'},
                     {value: '1', title: '背景'},
                     {value: '2', title: '無動作'}
+                ],
+                engine_title: '引擎:',
+                engine_option: [
+                    {value: '0', title: 'Google'}
                 ]
             },
             right: {
@@ -33,6 +41,10 @@ $(document).ready(function(e) {
                     {value: '0', title: '前景'},
                     {value: '1', title: '背景'},
                     {value: '2', title: '無動作'}
+                ],
+                engine_title: '引擎:',
+                engine_option: [
+                    {value: '0', title: 'Google'}
                 ]
             },
             left: {
@@ -41,6 +53,10 @@ $(document).ready(function(e) {
                     {value: '0', title: '前景'},
                     {value: '1', title: '背景'},
                     {value: '2', title: '無動作'}
+                ],
+                engine_title: '引擎:',
+                engine_option: [
+                    {value: '0', title: 'Google'}
                 ]
             }
         };
