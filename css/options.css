@@ -213,6 +213,6 @@ select.opt_engine_action {
 
 label.lb_engine {
     padding: 0;
-    margin: 0 0 0 10px;
-    width: 60px;
+    margin: 0 10px 0 10px;
+    width: auto;
 }
