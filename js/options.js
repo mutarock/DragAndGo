@@ -39,16 +39,19 @@ $(document).ready(function(e) {
         var ns = [
             {},
             {
+                prefix: 'link',
                 legend: 'Gesture for draging Link',
                 option: link_option
             },
             {
+                prefix: 'text',
                 legend: 'Gesture for draging Text',
                 option: text_option,
                 engine_title: 'Engine:',
                 engine_option: engine_option
             },
             {
+                prefix: 'image',
                 legend: 'Gesture for draging Image',
                 option: image_option
             }
@@ -56,6 +59,7 @@ $(document).ready(function(e) {
         for(var i=1; i<=3; i++) {
             // normal opts
             var opts = {
+                prefix: ns[i].prefix,
                 legend: ns[i].legend,
                 up: { title: 'UP: ', option: [] },
                 down: { title: 'DOWN: ', option: [] },
@@ -78,6 +82,13 @@ $(document).ready(function(e) {
             var content = tmpl('template-simple_option', opts);
             $('#tabs-'+i).html(content);
         }
+        // options html finished
+        
+        // restore settings
+        restoreSettings();
+        
+        // binging on change events
+        bindEvents();
     });
     
     
@@ -135,7 +146,25 @@ $(document).ready(function(e) {
     set_Image_selected_mode(localSettings);
 });
 
+function restoreSettings() {
+    //console.log(localStorage);
+    
+    for(var key in localStorage) {
+        $('#'+key).val(localStorage[key]);
+    }
+}
 
+function bindEvents() {
+    $('#link_up, #link_down, #link_right, #link_left'+
+      '#text_up, #text_down, #text_right, #text_left'+
+      '#image_up, #image_down, #image_right, #image_left'
+      ).on('change', function(e) {
+        //console.log(this);
+        var $id = this.id;
+        
+        localStorage[$id] = $(this).val();
+    });
+}
 
 function set_Link_selected_mode(settings) {
     $("#Link_selected_mode_0")
