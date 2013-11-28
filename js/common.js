@@ -18,13 +18,3 @@ function getDefault() {
         "searchEngines" : [0, 0, 0, 0]
     };
 }
-
-var _build_in_seach_engines = [{
-            "name" : "google",
-            //"favicon" : "./favicon/google.ico",
-            "url" : "http://www.google.com/search?hl=en&q=%s"
-        }, {
-            "name" : "yahoo",
-            //"favicon" : "./favicon/yahoo.ico",
-            "url" : "http://search.yahoo.com/search?fr=crmas&p=%s"
-        }];

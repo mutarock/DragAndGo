@@ -84,11 +84,6 @@ $(document).ready(function(e) {
 
             var content = tmpl('template-simple_option', opts);
             $('#tabs-'+i).html(content);
-            // .on('change', function(e) {
-            //     //console.log( "change Link_selected_mode_1");
-            //     console.log(e.target.value);
-            //     save_Image_selected_mode(1, e.target.value);
-            // });
         }
         // options html finished
         
@@ -99,19 +94,8 @@ $(document).ready(function(e) {
         bindEvents();
     });
     
-    
-    // localSettings, if not exist, it will return default value
-    var localSettings = getLocal();
-    restoreOption(localSettings);
-    
 });
 
-
-function restoreOption(settings) {
-    set_Link_selected_mode(localSettings);
-    set_Text_selected_mode(localSettings);
-    set_Image_selected_mode(localSettings);
-});
 
 function restoreSettings() {
     //console.log(localStorage);
@@ -122,60 +106,14 @@ function restoreSettings() {
 }
 
 function bindEvents() {
-    $('#link_up, #link_down, #link_right, #link_left'+
-      '#text_up, #text_down, #text_right, #text_left'+
-      '#image_up, #image_down, #image_right, #image_left'
+    $('#link_up, #link_down, #link_right, #link_left,'+
+      '#text_up, #text_down, #text_right, #text_left,'+
+      '#image_up, #image_down, #image_right, #image_left,' + 
+      '#text_up_engine, #text_down_engine, #text_right_engine, #text_left_engine'
       ).on('change', function(e) {
         //console.log(this);
         var $id = this.id;
         
         localStorage[$id] = $(this).val();
     });
-}
-
-function set_Link_selected_mode(settings) {
-    var link_mode = settings.LinkActiveMode;
-    //$().val = link_mode[];
-}
-
-function save_Link_selected_mode(index, value) {
-    var settings = getLocal();
-    settings.LinkActiveMode[index] = value;
-    save_settings(settings);
-}
-
-function set_Text_selected_mode(settings) {
-    var text_mode = settings.TextActiveMode;
-    //$().val = text_mode[];
-}
-
-function save_Text_selected_mode(index, value) {
-    var settings = getLocal();
-    settings.TextActiveMode[index] = value;
-    save_settings(settings);
-}
-
-function set_Image_selected_mode(settings) {
-    var image_mode = settings.ImageActiveMode;
-    //$().val = image_mode[];
-}
-
-function save_Image_selected_mode(index, value) {
-    var settings = getLocal();
-    settings.ImageActiveMode[index] = value;
-    save_settings(settings);
-}
-
-
-
-function save_settings(settings) {
-    localStorage.setItem("myDragSettings", JSON.stringify(settings));
-}
-
-function load_default_settings() {
-
-}
-
-function load_settings() {
-
 }
