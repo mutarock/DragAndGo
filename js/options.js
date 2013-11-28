@@ -44,10 +44,13 @@ $(document).ready(function(e) {
                 ]
             }
         };
-    
-        var content = tmpl('template-simple_option', opts);
-        console.log(content);
-        $('#tabs-1, #tabs-2, #tabs-3').html(content);
+        
+        var ns = ['Gesture for draging Link', 'Gesture for draging Text', 'Gesture for draging Image'] // namespace
+        for(var i=1; i<=3; i++) {
+            opts.legend = ns[i-1];
+            var content = tmpl('template-simple_option', opts);
+            $('#tabs-'+i).html(content);
+        }
     });
     
     
