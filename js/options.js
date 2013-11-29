@@ -43,19 +43,22 @@ $(document).ready(function(e) {
             {},
             {
                 prefix: 'link',
-                legend: 'Gesture for draging Link',
+                //legend: 'Gesture for draging Link',
+                //p: 'Setting each gesture',
                 option: link_option
             },
             {
                 prefix: 'text',
-                legend: 'Gesture for draging Text',
+                //legend: 'Gesture for draging Text',
+                //p: 'Setting each gesture',
                 option: text_option,
                 engine_title: 'Engine:',
                 engine_option: engine_option
             },
             {
                 prefix: 'image',
-                legend: 'Gesture for draging Image',
+                //legend: 'Gesture for draging Image',
+                //p: 'Setting each gesture',
                 option: image_option
             }
         ];
@@ -63,7 +66,9 @@ $(document).ready(function(e) {
             // normal opts
             var opts = {
                 prefix: ns[i].prefix,
-                legend: ns[i].legend,
+                //legend: ns[i].legend,
+                //p: ns[i].p,
+                p: 'Setting each gesture:',
                 up: { title: 'UP: ', option: [] },
                 down: { title: 'DOWN: ', option: [] },
                 right: { title: 'RIGHT: ', option: [] },
@@ -83,7 +88,8 @@ $(document).ready(function(e) {
             });
 
             var content = tmpl('template-simple_option', opts);
-            $('#tabs-'+i).html(content);
+            $('#tabs-'+i +' > fieldset > div:eq(1)').html(content);
+            //$('#tabs-'+i).html(content);
         }
         // options html finished
         
@@ -94,6 +100,46 @@ $(document).ready(function(e) {
         bindEvents();
     });
     
+
+    TH.import_tmpl(['radio_option'], function(r) { 
+        var radio_option = [
+            {value: '0', title: '上下左右'},
+            {value: '1', title: '上下'},
+            {value: '2', title: '無動作'},
+        ]
+
+        var ns = [
+            {},
+            {
+                prefix: 'link',
+                option: radio_option
+            },
+            {
+                prefix: 'text',
+                option: radio_option
+            },
+            {
+                prefix: 'image',
+                option: radio_option
+            }
+        ];
+        for(var j=1; j<=3; j++) {
+            // normal opts
+            var opts = {
+                prefix: ns[j].prefix,
+                p: ' Setting gesture direction mode:',
+                fourDir: { title: 'FOUR WAY: ', option: [] },
+                twoDir: { title: 'TWO WAY: ', option: [] },
+                noDir: { title: 'NO WAY: ', option: [] },
+            };
+
+            var content = tmpl('template-radio_option', opts);
+            $('#tabs-'+j +' > fieldset > div:eq(0)').html(content);
+            //$('#tabs-'+i).html(content);
+        }
+
+    });
+
 });
 
 
