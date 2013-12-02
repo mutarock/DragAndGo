@@ -9,6 +9,7 @@
         {% if(o[key]) { %}
         <li class="rad_item">
             <label>{%=o[key].title%}</label>
+            <!-- <div style="background: url('..../image/"+key+".ico) no-repeat;"></div> -->
             <input class="rad_action" id="{%=o.prefix%}_{%=key%}" name="selected_mode" type="radio">
             </input>
         </li>
