@@ -144,10 +144,10 @@ $(document).ready(function(e) {
         // radio html finished
         
         // restore settings
-        
+        restoreRadioMode();
         
         // binging on change events
-        
+        bindRadioEvents();
     });
 
 });
@@ -158,8 +158,10 @@ function restoreSettings() {
     
     for(var key in localStorage) {
         $('#'+key).val(localStorage[key]);
+        //console.log('#'+key);
     }
 }
+
 
 function bindEvents() {
     $('#link_up, #link_down, #link_right, #link_left,'+
@@ -172,4 +174,24 @@ function bindEvents() {
         
         localStorage[$id] = $(this).val();
     });
+}
+
+
+function restoreRadioMode() {
+    //console.log(localStorage);
+
+    var mode = localStorage['gesture_link_mode'];
+    $('input[name=link_selected_mode]').get(mode).checked = true;
+
+    mode = localStorage['gesture_text_mode'];
+    $('input[name=text_selected_mode]').get(mode).checked = true;
+
+    mode = localStorage['gesture_image_mode'];
+    $('input[name=image_selected_mode]').get(mode).checked = true;
+
+}
+
+
+function bindRadioEvents() {
+
 }

@@ -234,8 +234,9 @@ label.rad_label {
 }
 
 input.rad_action {
-    width: 15px;
+    width: 33px;
     height: 33px;
     padding: 0px;
-    margin: 0px 11px 0px 0px;
+    margin: 0px 33px 0px 0px;
+    float: left;
 }
