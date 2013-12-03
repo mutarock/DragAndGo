@@ -128,16 +128,26 @@ $(document).ready(function(e) {
             var opts = {
                 prefix: ns[j].prefix,
                 p: ' Setting gesture direction mode:',
-                fourDir: { title: 'FOUR WAY: ', option: [] },
-                twoDir: { title: 'TWO WAY: ', option: [] },
-                noDir: { title: 'NO WAY: ', option: [] },
+                fourDir: { title: 'FOUR WAY: ', option: [], icon: '../images/fourDir.png' },
+                twoDir: { title: 'TWO WAY: ', option: [], icon: '../images/twoDir.png' },
+                noDir: { title: 'NO WAY: ', option: [], icon: '../images/noDir.png' },
             };
+
+            $.each(['fourDir', 'twoDir', 'noDir'], function(k, v) {
+                opts[v].option = ns[j].option;
+            });
 
             var content = tmpl('template-radio_option', opts);
             $('#tabs-'+j +' > fieldset > div:eq(0)').html(content);
             //$('#tabs-'+i).html(content);
         }
-
+        // radio html finished
+        
+        // restore settings
+        
+        
+        // binging on change events
+        
     });
 
 });
