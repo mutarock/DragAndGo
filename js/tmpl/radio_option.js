@@ -1,6 +1,6 @@
 {% log(o); %}
 <!-- <fieldset> -->
-    <p>{%=o.p%}</p>
+    <h4>{%=o.header%}</h4>
     <ul class="clearfix">
     {% var set = ['fourDir', 'twoDir', 'noDir']; %}
     {% var index = 0; %}
@@ -8,8 +8,8 @@
         {% var key = set[x]; %}
         {% if(o[key]) { %}
         <li class="rad_item">
-            <label class="rad_label">{%=o[key].title%}</label>
-            <div id="pic_{%=key%}"></div>
+            <!-- <label class="rad_label">{%=o[key].title%}</label> -->
+            <div id="pic_{%=key%}" title="{%=o[key].option[index]['title']%}"></div>
             <input class="rad_action" id="{%=o.prefix%}_radio_{%=index%}" name="{%=o.prefix%}_gesture_mode" type="radio" value="{%=o[key].option[index]['value']%}">
             </input>
         </li>

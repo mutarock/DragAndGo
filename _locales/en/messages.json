@@ -8,5 +8,30 @@
 	{
 		"message": "Drag url, image, text for open or search in new tab",
 		"description":"ext desc"
+	},
+
+	"tab_Link":
+	{
+		"message": "Link",
+		"description":"ext desc"
+	},
+
+	"tab_Text":
+	{
+		"message": "Text",
+		"description":"ext desc"
+	},
+
+	"tab_Image":
+	{
+		"message": "Image",
+		"description":"ext desc"
+	},
+
+	"tab_About":
+	{
+		"message": "About",
+		"description":"ext desc"
 	}
+
 }

@@ -264,3 +264,14 @@ input.rad_action {
     height: 32px;
     float: left;
 }
+
+fieldset hr {
+    border: 0;
+    color: #000;
+    background-color: #000;
+    height: 2px;
+    margin: 15px 0px 0px 0px;
+    /*border-top-width: 1px;
+    border-top-style: dashed;
+    border-top-color: rgb(255, 0, 0);*/
+}

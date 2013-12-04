@@ -1,7 +1,7 @@
 {% log(o); %}
 <!-- <fieldset> -->
     <!-- <legend>{%=o.legend%}</legend>  -->
-    <p>{%=o.p%}</p>
+    <h4>{%=o.header%}</h4>
     <ul>
     {% var set = ['up', 'down', 'right', 'left']; %}
     {% for(var x in set) { %}

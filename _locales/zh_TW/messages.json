@@ -8,5 +8,29 @@
 	{
 		"message": "使用拖動手勢開啟新分頁",
 		"description":"擴充套件描述"
+	},
+
+	"tab_Link":
+	{
+		"message": "連結",
+		"description":"ext desc"
+	},
+
+	"tab_Text":
+	{
+		"message": "文字",
+		"description":"ext desc"
+	},
+
+	"tab_Image":
+	{
+		"message": "圖片",
+		"description":"ext desc"
+	},
+
+	"tab_About":
+	{
+		"message": "關於",
+		"description":"ext desc"
 	}
 }

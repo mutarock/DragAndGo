@@ -68,7 +68,7 @@ $(document).ready(function(e) {
                 prefix: ns[i].prefix,
                 //legend: ns[i].legend,
                 //p: ns[i].p,
-                p: 'Setting each gesture:',
+                header: 'Setting each gesture action :',
                 up: { title: 'UP: ', option: [] },
                 down: { title: 'DOWN: ', option: [] },
                 right: { title: 'RIGHT: ', option: [] },
@@ -127,10 +127,10 @@ $(document).ready(function(e) {
             // normal opts
             var opts = {
                 prefix: ns[j].prefix,
-                p: ' Setting gesture direction mode:',
-                fourDir: { title: 'FOUR WAY: ', option: [], icon: '../images/fourDir.png' },
-                twoDir: { title: 'TWO WAY: ', option: [], icon: '../images/twoDir.png' },
-                noDir: { title: 'NO WAY: ', option: [], icon: '../images/noDir.png' },
+                header: ' Setting gesture direction mode :',
+                fourDir: { title: 'FOUR WAY: ', option: [] },
+                twoDir: { title: 'TWO WAY: ', option: [] },
+                noDir: { title: 'NO WAY: ', option: [] },
             };
 
             $.each(['fourDir', 'twoDir', 'noDir'], function(k, v) {
