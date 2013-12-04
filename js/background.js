@@ -23,9 +23,9 @@ var g_default_value = {
     'text_down_engine': 0,
     'text_right_engine': 0,
     'text_left_engine': 0,
-    'gesture_link_mode': 0,
-    'gesture_text_mode': 0,
-    'gesture_image_mode': 0
+    'link_gesture_mode': 0,
+    'text_gesture_mode': 0,
+    'image_gesture_mode': 0
 };
 
 // build in search engine

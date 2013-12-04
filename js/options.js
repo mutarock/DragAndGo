@@ -180,18 +180,31 @@ function bindEvents() {
 function restoreRadioMode() {
     //console.log(localStorage);
 
-    var mode = localStorage['gesture_link_mode'];
-    $('input[name=link_selected_mode]').get(mode).checked = true;
+    var mode = localStorage['link_gesture_mode'];
+    $('input[name=link_gesture_mode]').get(mode).checked = true;
 
-    mode = localStorage['gesture_text_mode'];
-    $('input[name=text_selected_mode]').get(mode).checked = true;
+    mode = localStorage['text_gesture_mode'];
+    $('input[name=text_gesture_mode]').get(mode).checked = true;
 
-    mode = localStorage['gesture_image_mode'];
-    $('input[name=image_selected_mode]').get(mode).checked = true;
+    mode = localStorage['image_gesture_mode'];
+    $('input[name=image_gesture_mode]').get(mode).checked = true;
 
 }
 
 
 function bindRadioEvents() {
 
+    $('input[name=link_gesture_mode],' + 
+      'input[name=text_gesture_mode],' +
+      'input[name=image_gesture_mode]'
+      ).on('change', function(e) {
+
+        //console.log(this);
+        //console.log($(this).val());
+
+        var $id = this.id;
+        var $name = this.name;
+        
+        localStorage[$name] = $(this).val();
+    });
 }
