@@ -240,3 +240,27 @@ input.rad_action {
     margin: 0px 33px 0px 0px;
     float: left;
 }
+
+#pic_fourDir {
+    display: inline-block;
+    background: url(/images/fourDir.png) no-repeat;
+    width: 32px;
+    height: 32px;
+    float: left;
+}
+
+#pic_twoDir {
+    display: inline-block;
+    background: url(/images/twoDir.png) no-repeat;
+    width: 32px;
+    height: 32px;
+    float: left;
+}
+
+#pic_noDir {
+    display: inline-block;
+    background: url(/images/noDir.png) no-repeat;
+    width: 32px;
+    height: 32px;
+    float: left;
+}
