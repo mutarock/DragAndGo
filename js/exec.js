@@ -54,21 +54,35 @@ $(document).ready(function(e) {
 jQuery.event.props.push('dataTransfer');
 
 function getDirID() {
-    /************************************/
-    /* 0 : UP-LEFT      2 : DOWN-LEFT   */
-    /* 1 : UP-RIGHT     3 : DOWN-RIGHT  */
-    /************************************/
+    /****************************/
+    /*  0 : UP        1 : DOWN  */
+    /*  2 : RIGHT     3 : LEFT  */
+    /****************************/
 
     var now_x = window.event.x;
     var now_y = window.event.y;
-    if (now_x < _start_x) {
-        if (now_y > _start_y)
+    var diff_x = Math.abs(now_x - _start_x); 
+    var diff_y = Math.abs(now_y - _start_y);
+
+    if (now_x > _start_x && now_y > _start_y) { // DOWN-RIGHT
+        if(diff_x > diff_y)
+            return 2;
+        return 1;
+
+    } else if (now_x < _start_x && now_y > _start_y) {  // DOWN-LEFT
+        if(diff_x > diff_y)
+            return 3;
+        return 1;
+
+    } else if (now_x > _start_x && now_y < _start_y) {  // UP-RIGHT
+        if(diff_x > diff_y)
             return 2;
         return 0;
-    } else {
-        if (now_y < _start_y)
-            return 1;
-        return 3;
+
+    } else {  // UP-LEFT
+        if(diff_x > diff_y)
+            return 3;
+        return 0;
     }
 }
 
@@ -121,7 +135,9 @@ function handleSelection(event) {
         }
         if (_dnd_Data) {
             var newTab = generateTab(_dnd_Data);
-                        
+
+            //console.log(_dirID);
+
             chrome.runtime.sendMessage({greeting: "openNewTab", data: newTab}, function(response) {
                 console.log(response.farewell);
             });            

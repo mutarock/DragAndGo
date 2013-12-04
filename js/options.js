@@ -43,19 +43,22 @@ $(document).ready(function(e) {
             {},
             {
                 prefix: 'link',
-                legend: 'Gesture for draging Link',
+                //legend: 'Gesture for draging Link',
+                //p: 'Setting each gesture',
                 option: link_option
             },
             {
                 prefix: 'text',
-                legend: 'Gesture for draging Text',
+                //legend: 'Gesture for draging Text',
+                //p: 'Setting each gesture',
                 option: text_option,
                 engine_title: 'Engine:',
                 engine_option: engine_option
             },
             {
                 prefix: 'image',
-                legend: 'Gesture for draging Image',
+                //legend: 'Gesture for draging Image',
+                //p: 'Setting each gesture',
                 option: image_option
             }
         ];
@@ -63,7 +66,9 @@ $(document).ready(function(e) {
             // normal opts
             var opts = {
                 prefix: ns[i].prefix,
-                legend: ns[i].legend,
+                //legend: ns[i].legend,
+                //p: ns[i].p,
+                p: 'Setting each gesture:',
                 up: { title: 'UP: ', option: [] },
                 down: { title: 'DOWN: ', option: [] },
                 right: { title: 'RIGHT: ', option: [] },
@@ -83,12 +88,8 @@ $(document).ready(function(e) {
             });
 
             var content = tmpl('template-simple_option', opts);
-            $('#tabs-'+i).html(content);
-            // .on('change', function(e) {
-            //     //console.log( "change Link_selected_mode_1");
-            //     console.log(e.target.value);
-            //     save_Image_selected_mode(1, e.target.value);
-            // });
+            $('#tabs-'+i +' > fieldset > div:eq(1)').html(content);
+            //$('#tabs-'+i).html(content);
         }
         // options html finished
         
@@ -99,32 +100,74 @@ $(document).ready(function(e) {
         bindEvents();
     });
     
-    
-    // localSettings, if not exist, it will return default value
-    var localSettings = getLocal();
-    restoreOption(localSettings);
-    
+
+    TH.import_tmpl(['radio_option'], function(r) { 
+        var radio_option = [
+            {value: '0', title: '上下左右'},
+            {value: '1', title: '上下'},
+            {value: '2', title: '無動作'},
+        ]
+
+        var ns = [
+            {},
+            {
+                prefix: 'link',
+                option: radio_option
+            },
+            {
+                prefix: 'text',
+                option: radio_option
+            },
+            {
+                prefix: 'image',
+                option: radio_option
+            }
+        ];
+        for(var j=1; j<=3; j++) {
+            // normal opts
+            var opts = {
+                prefix: ns[j].prefix,
+                p: ' Setting gesture direction mode:',
+                fourDir: { title: 'FOUR WAY: ', option: [], icon: '../images/fourDir.png' },
+                twoDir: { title: 'TWO WAY: ', option: [], icon: '../images/twoDir.png' },
+                noDir: { title: 'NO WAY: ', option: [], icon: '../images/noDir.png' },
+            };
+
+            $.each(['fourDir', 'twoDir', 'noDir'], function(k, v) {
+                opts[v].option = ns[j].option;
+            });
+
+            var content = tmpl('template-radio_option', opts);
+            $('#tabs-'+j +' > fieldset > div:eq(0)').html(content);
+            //$('#tabs-'+i).html(content);
+        }
+        // radio html finished
+        
+        // restore settings
+        restoreRadioMode();
+        
+        // binging on change events
+        bindRadioEvents();
+    });
+
 });
 
-
-function restoreOption(settings) {
-    set_Link_selected_mode(localSettings);
-    set_Text_selected_mode(localSettings);
-    set_Image_selected_mode(localSettings);
-};
 
 function restoreSettings() {
     //console.log(localStorage);
     
     for(var key in localStorage) {
         $('#'+key).val(localStorage[key]);
+        //console.log('#'+key);
     }
 }
 
+
 function bindEvents() {
-    $('#link_up, #link_down, #link_right, #link_left'+
-      '#text_up, #text_down, #text_right, #text_left'+
-      '#image_up, #image_down, #image_right, #image_left'
+    $('#link_up, #link_down, #link_right, #link_left,'+
+      '#text_up, #text_down, #text_right, #text_left,'+
+      '#image_up, #image_down, #image_right, #image_left,' + 
+      '#text_up_engine, #text_down_engine, #text_right_engine, #text_left_engine'
       ).on('change', function(e) {
         //console.log(this);
         var $id = this.id;
@@ -133,49 +176,35 @@ function bindEvents() {
     });
 }
 
-function set_Link_selected_mode(settings) {
-    var link_mode = settings.LinkActiveMode;
-    //$().val = link_mode[];
-}
 
-function save_Link_selected_mode(index, value) {
-    var settings = getLocal();
-    settings.LinkActiveMode[index] = value;
-    save_settings(settings);
-}
+function restoreRadioMode() {
+    //console.log(localStorage);
 
-function set_Text_selected_mode(settings) {
-    var text_mode = settings.TextActiveMode;
-    //$().val = text_mode[];
-}
+    var mode = localStorage['link_gesture_mode'];
+    $('input[name=link_gesture_mode]').get(mode).checked = true;
 
-function save_Text_selected_mode(index, value) {
-    var settings = getLocal();
-    settings.TextActiveMode[index] = value;
-    save_settings(settings);
-}
+    mode = localStorage['text_gesture_mode'];
+    $('input[name=text_gesture_mode]').get(mode).checked = true;
 
-function set_Image_selected_mode(settings) {
-    var image_mode = settings.ImageActiveMode;
-    //$().val = image_mode[];
-}
-
-function save_Image_selected_mode(index, value) {
-    var settings = getLocal();
-    settings.ImageActiveMode[index] = value;
-    save_settings(settings);
-}
-
-
-
-function save_settings(settings) {
-    localStorage.setItem("myDragSettings", JSON.stringify(settings));
-}
-
-function load_default_settings() {
+    mode = localStorage['image_gesture_mode'];
+    $('input[name=image_gesture_mode]').get(mode).checked = true;
 
 }
 
-function load_settings() {
 
+function bindRadioEvents() {
+
+    $('input[name=link_gesture_mode],' + 
+      'input[name=text_gesture_mode],' +
+      'input[name=image_gesture_mode]'
+      ).on('change', function(e) {
+
+        //console.log(this);
+        //console.log($(this).val());
+
+        var $id = this.id;
+        var $name = this.name;
+        
+        localStorage[$name] = $(this).val();
+    });
 }

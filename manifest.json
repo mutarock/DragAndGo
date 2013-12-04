@@ -10,7 +10,7 @@
 
   "version": "0.1.0",
   
-  "author":"Ray Tseng(mutarock)", 
+  "author": ["Ray Tseng(mutarock)", "BoRu Su(kilfu0701)"], 
 
   "permissions": [
     "tabs"
