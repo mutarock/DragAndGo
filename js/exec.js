@@ -31,6 +31,7 @@ $(document).ready(function(e) {
 
         .on( "dragend", function( event, ui ) {
             //e.preventDefault();
+            //console.log(_dirID);
             handleSelection(event);
             //return false;
         } )
@@ -54,9 +55,17 @@ $(document).ready(function(e) {
 jQuery.event.props.push('dataTransfer');
 
 function getDirID() {
+
     /****************************/
-    /*  0 : UP        1 : DOWN  */
-    /*  2 : RIGHT     3 : LEFT  */
+    /*            UP            */
+    /*     \      |      /      */
+    /*      \  3  |  5  /     R */
+    /* L   1 \    |    / 7    I */
+    /* E -------------------- G */
+    /* F   2 /    |    \ 8    H */
+    /* T    /  4  |  6  \     T */
+    /*     /      |      \      */
+    /*           DOWN           */
     /****************************/
 
     var now_x = window.event.x;
@@ -66,23 +75,23 @@ function getDirID() {
 
     if (now_x > _start_x && now_y > _start_y) { // DOWN-RIGHT
         if(diff_x > diff_y)
-            return 2;
-        return 1;
+            return 8;
+        return 6;
 
     } else if (now_x < _start_x && now_y > _start_y) {  // DOWN-LEFT
         if(diff_x > diff_y)
-            return 3;
-        return 1;
+            return 2;
+        return 4;
 
     } else if (now_x > _start_x && now_y < _start_y) {  // UP-RIGHT
         if(diff_x > diff_y)
-            return 2;
-        return 0;
+            return 7;
+        return 5;
 
     } else {  // UP-LEFT
         if(diff_x > diff_y)
-            return 3;
-        return 0;
+            return 1;
+        return 3;
     }
 }
 
@@ -126,8 +135,8 @@ function getDnDSelection(event) {
 }
 
 function handleSelection(event) {
-    var now_x = window.event.x;
-    var now_y = window.event.y;
+    // var now_x = window.event.x;
+    // var now_y = window.event.y;
 
     if (event.dataTransfer.dropEffect == "copy") {
         if (event.preventDefault) {
@@ -136,11 +145,14 @@ function handleSelection(event) {
         if (_dnd_Data) {
             var newTab = generateTab(_dnd_Data);
 
-            //console.log(_dirID);
+            console.log("----------");
+            console.log(_dirID);
+            console.log(newTab);
+            console.log("----------");
 
             chrome.runtime.sendMessage({greeting: "openNewTab", data: newTab}, function(response) {
                 console.log(response.farewell);
-            });            
+            });
             // return false;
         }
     }
@@ -154,7 +166,7 @@ function generateTab(dndData) {
     
     getUrlFromData(tabData, dndData);
 
-    console.log(tabData);
+    //console.log(tabData);
     return tabData;
 }
 

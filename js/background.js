@@ -44,10 +44,12 @@ var g_build_in_seach_engines = [{
 // background.js startup
 window.onload = function() {
     initailize();
+    console.log("onload");
 };
 
 // 初始化
 function initailize() {
+    console.log("initailize");
     for(var i in g_default_value) {
         if(localStorage[i] == undefined) {
             localStorage[i] = g_default_value[i];
@@ -140,26 +142,52 @@ function highLightCurrTab(tabData) {
 
 
 /****************************/
-/*  0 : UP        1 : DOWN  */
-/*  2 : RIGHT     3 : LEFT  */
+/*            UP            */
+/*     \      |      /      */
+/*      \  3  |  5  /     R */
+/* L   1 \    |    / 7    I */
+/* E -------------------- G */
+/* F   2 /    |    \ 8    H */
+/* T    /  4  |  6  \     T */
+/*     /      |      \      */
+/*           DOWN           */
 /****************************/
 function activeOrNot(tabData) {
 	
 	if (!tabData.isUrl) {  // text
-		switch(tabData.dirID) {
-			case 0:
-				return localStorage['text_up'];
-				
-			case 1:
-				return localStorage['text_down'];
-				
-			case 2:
-				return localStorage['text_right'];
-				
-			case 3:
-				return localStorage['text_left'];
 
-		}
+        var mode = localStorage['text_gesture_mode'];
+        if(mode == 0) {
+            if(tabData.dirID % 2 == 0) {
+                return localStorage['text_down'];
+            } else {
+                return localStorage['text_up'];
+            }
+
+        } else {mode == 1} {
+            switch(tabData.dirID) {
+                case 3:
+                case 5:
+                    return localStorage['text_up'];
+                
+                case 4:
+                case 6:
+                    return localStorage['text_down'];
+                
+                case 7:
+                case 8:
+                    return localStorage['text_right'];
+                
+                case 1:
+                case 2:
+                    return localStorage['text_left'];
+
+            }
+
+        } else {
+            return 99;
+        }
+
 	}else {  // url or image
 		switch(tabData.dirID) {
 			case 0:

@@ -147,18 +147,18 @@ $(document).ready(function(e) {
         restoreRadioMode();
         
         // binging on change events
-        bindRadioEvents();
+        //bindRadioEvents();
     });
 
 });
 
 
 function restoreSettings() {
-    //console.log(localStorage);
+    console.log(localStorage);
     
     for(var key in localStorage) {
         $('#'+key).val(localStorage[key]);
-        //console.log('#'+key);
+        console.log('#'+key);
     }
 }
 
@@ -181,13 +181,39 @@ function restoreRadioMode() {
     //console.log(localStorage);
 
     var mode = localStorage['link_gesture_mode'];
+    console.log(mode);
     $('input[name=link_gesture_mode]').get(mode).checked = true;
+    if(mode != 0) {
+        $('#link_right, #link_left').attr('disabled', true);
+        
+        if(mode == 2)
+            $('#link_up, #link_down').attr('disabled', true);
+    }
+
 
     mode = localStorage['text_gesture_mode'];
+    console.log(mode);
     $('input[name=text_gesture_mode]').get(mode).checked = true;
+    if(mode != 0) {
+        $('#text_right, #text_left').attr('disabled', 'disabled');
+        $('#text_right_engine, #text_left_engine').attr('disabled', true);
+        
+        if(mode == 2) {
+            $('#text_up, #text_down').attr('disabled', 'disabled');
+            $('#text_up_engine, #text_down_engine').attr('disabled', true);
+        }
+    }
+
 
     mode = localStorage['image_gesture_mode'];
+    console.log(mode);
     $('input[name=image_gesture_mode]').get(mode).checked = true;
+    if(mode != 0) {
+        $('#image_right, #image_left').attr('disabled', true);
+        
+        if(mode == 2)
+            $('#image_up, #image_down').attr('disabled', true);
+    }
 
 }
 
@@ -199,12 +225,82 @@ function bindRadioEvents() {
       'input[name=image_gesture_mode]'
       ).on('change', function(e) {
 
-        //console.log(this);
-        //console.log($(this).val());
+        // console.log(this);
+        // console.log(this.id.substr(0, 4));
+        // console.log($(this).val());
 
-        var $id = this.id;
+        //var $id = this.id;
         var $name = this.name;
-        
         localStorage[$name] = $(this).val();
+
+        // change select status to enable or disable
+        changeSelectStatus(this.id.substr(0, 4), $(this).val());
+
     });
+}
+
+function changeSelectStatus(selectName, selectStatus) {
+
+    if(selectName == "link") {
+        if(selectStatus == 0) {
+            $('#link_right, #link_left').attr('disabled', false);
+
+            $('#link_up, #link_down').attr('disabled', false);
+
+        } else if(selectStatus == 1) {
+            $('#link_right, #link_left').attr('disabled', true);
+
+            $('#link_up, #link_down').attr('disabled', false);
+
+        } else {
+            $('#link_right, #link_left').attr('disabled', true);
+
+            $('#link_up, #link_down').attr('disabled', true);
+
+        }
+
+
+    } else if(selectName == "text") {
+        if(selectStatus == 0) {
+            $('#text_right, #text_left').attr('disabled', false);
+            $('#text_right_engine, #text_left_engine').attr('disabled', false);
+
+            $('#text_up, #text_down').attr('disabled', false);
+            $('#text_up_engine, #text_down_engine').attr('disabled', false);
+
+        } else if(selectStatus == 1) {
+            $('#text_right, #text_left').attr('disabled', true);
+            $('#text_right_engine, #text_left_engine').attr('disabled', true);
+
+            $('#text_up, #text_down').attr('disabled', false);
+            $('#text_up_engine, #text_down_engine').attr('disabled', false);
+
+        } else {
+            $('#text_right, #text_left').attr('disabled', true);
+            $('#text_right_engine, #text_left_engine').attr('disabled', true);
+
+            $('#text_up, #text_down').attr('disabled', true);
+            $('#text_up_engine, #text_down_engine').attr('disabled', true);
+        }
+
+    } else {
+        if(selectStatus == 0) {
+            $('#image_right, #image_left').attr('disabled', false);
+
+            $('#image_up, #image_down').attr('disabled', false);
+
+        } else if(selectStatus == 1) {
+            $('#image_right, #image_left').attr('disabled', true);
+
+            $('#image_up, #image_down').attr('disabled', false);
+
+        } else {
+            $('#image_right, #image_left').attr('disabled', true);
+
+            $('#image_up, #image_down').attr('disabled', true);
+
+        }
+
+    }
+
 }
