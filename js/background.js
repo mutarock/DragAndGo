@@ -164,7 +164,7 @@ function activeOrNot(tabData) {
                 return localStorage['text_up'];
             }
 
-        } else {mode == 1} {
+        } else if(mode == 1) {
             switch(tabData.dirID) {
                 case 3:
                 case 5:
