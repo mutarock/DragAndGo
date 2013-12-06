@@ -1,3 +1,10 @@
+/**
+* ==  options.js ==
+*
+*   @Author: 
+*       mutarock, mutarock@gmail.com
+**/
+
 var TH = new THK.TmplHelper({ url: '/js/tmpl/' });
 
 tmpl.helper += ",log=function(){console.log.apply(console, arguments)}" +
@@ -8,13 +15,19 @@ $(document).ready(function(e) {
     // 分頁
     $( "#tabs" ).tabs(function(){ console.log(1); });
     
+    // legend text in each tab
+    $('#tabs-1' +' > fieldset > legend').text("Gesture for draging Link");
+    $('#tabs-2' +' > fieldset > legend').text("Gesture for draging Text");
+    $('#tabs-3' +' > fieldset > legend').text("Gesture for draging Image");
+    $('#tabs-4' +' > fieldset > legend').text("About the extension");
+
     // load tmpl files
     TH.import_tmpl(['simple_option'], function(r) { 
         var text_option = [
             {value: '0', title: '在前景新分頁中搜尋'},
             {value: '1', title: '在背景新分頁中搜尋'},
             {value: '2', title: '在目前分頁中搜尋'},
-            {value: '3', title: '在當前頁面找尋文字並Highlight'},
+            //{value: '3', title: '在當前頁面找尋文字並Highlight'},
             {value: '99', title: '無動作'}
         ];
         
@@ -43,22 +56,16 @@ $(document).ready(function(e) {
             {},
             {
                 prefix: 'link',
-                //legend: 'Gesture for draging Link',
-                //p: 'Setting each gesture',
                 option: link_option
             },
             {
                 prefix: 'text',
-                //legend: 'Gesture for draging Text',
-                //p: 'Setting each gesture',
                 option: text_option,
                 engine_title: 'Engine:',
                 engine_option: engine_option
             },
             {
                 prefix: 'image',
-                //legend: 'Gesture for draging Image',
-                //p: 'Setting each gesture',
                 option: image_option
             }
         ];
@@ -66,8 +73,6 @@ $(document).ready(function(e) {
             // normal opts
             var opts = {
                 prefix: ns[i].prefix,
-                //legend: ns[i].legend,
-                //p: ns[i].p,
                 header: 'Setting each gesture action :',
                 up: { title: 'UP: ', option: [] },
                 down: { title: 'DOWN: ', option: [] },
@@ -147,21 +152,19 @@ $(document).ready(function(e) {
         restoreRadioMode();
         
         // binging on change events
-        //bindRadioEvents();
+        bindRadioEvents();
     });
 
 });
 
-
 function restoreSettings() {
-    console.log(localStorage);
+    //console.log(localStorage);
     
     for(var key in localStorage) {
         $('#'+key).val(localStorage[key]);
-        console.log('#'+key);
+        //console.log('#'+key);
     }
 }
-
 
 function bindEvents() {
     $('#link_up, #link_down, #link_right, #link_left,'+
@@ -176,12 +179,11 @@ function bindEvents() {
     });
 }
 
-
 function restoreRadioMode() {
     //console.log(localStorage);
 
     var mode = localStorage['link_gesture_mode'];
-    console.log(mode);
+    //console.log(mode);
     $('input[name=link_gesture_mode]').get(mode).checked = true;
     if(mode != 0) {
         $('#link_right, #link_left').attr('disabled', true);
@@ -192,7 +194,7 @@ function restoreRadioMode() {
 
 
     mode = localStorage['text_gesture_mode'];
-    console.log(mode);
+    //console.log(mode);
     $('input[name=text_gesture_mode]').get(mode).checked = true;
     if(mode != 0) {
         $('#text_right, #text_left').attr('disabled', 'disabled');
@@ -206,7 +208,7 @@ function restoreRadioMode() {
 
 
     mode = localStorage['image_gesture_mode'];
-    console.log(mode);
+    //console.log(mode);
     $('input[name=image_gesture_mode]').get(mode).checked = true;
     if(mode != 0) {
         $('#image_right, #image_left').attr('disabled', true);
@@ -216,7 +218,6 @@ function restoreRadioMode() {
     }
 
 }
-
 
 function bindRadioEvents() {
 
@@ -241,65 +242,36 @@ function bindRadioEvents() {
 
 function changeSelectStatus(selectName, selectStatus) {
 
-    if(selectName == "link") {
-        if(selectStatus == 0) {
-            $('#link_right, #link_left').attr('disabled', false);
-
-            $('#link_up, #link_down').attr('disabled', false);
-
-        } else if(selectStatus == 1) {
-            $('#link_right, #link_left').attr('disabled', true);
-
-            $('#link_up, #link_down').attr('disabled', false);
-
-        } else {
-            $('#link_right, #link_left').attr('disabled', true);
-
-            $('#link_up, #link_down').attr('disabled', true);
-
-        }
-
-
+    var prefix;
+    if (selectName == "link") {
+        prefix = "link";
     } else if(selectName == "text") {
-        if(selectStatus == 0) {
-            $('#text_right, #text_left').attr('disabled', false);
-            $('#text_right_engine, #text_left_engine').attr('disabled', false);
+        prefix = "text";
+    } else {
+        prefix = "image";
+    }
 
-            $('#text_up, #text_down').attr('disabled', false);
-            $('#text_up_engine, #text_down_engine').attr('disabled', false);
 
-        } else if(selectStatus == 1) {
-            $('#text_right, #text_left').attr('disabled', true);
-            $('#text_right_engine, #text_left_engine').attr('disabled', true);
+    if(selectStatus == 0) {
+        $('#' + prefix + '_right').attr('disabled', false);
+        $('#' + prefix + '_left').attr('disabled', false);
 
-            $('#text_up, #text_down').attr('disabled', false);
-            $('#text_up_engine, #text_down_engine').attr('disabled', false);
+        $('#' + prefix + '_up').attr('disabled', false);
+        $('#' + prefix + '_down').attr('disabled', false);
 
-        } else {
-            $('#text_right, #text_left').attr('disabled', true);
-            $('#text_right_engine, #text_left_engine').attr('disabled', true);
+    } else if(selectStatus == 1) {
+        $('#' + prefix + '_right').attr('disabled', true);
+        $('#' + prefix + '_left').attr('disabled', true);
 
-            $('#text_up, #text_down').attr('disabled', true);
-            $('#text_up_engine, #text_down_engine').attr('disabled', true);
-        }
+        $('#' + prefix + '_up').attr('disabled', false);
+        $('#' + prefix + '_down').attr('disabled', false);
 
     } else {
-        if(selectStatus == 0) {
-            $('#image_right, #image_left').attr('disabled', false);
+        $('#' + prefix + '_right').attr('disabled', true);
+        $('#' + prefix + '_left').attr('disabled', true);
 
-            $('#image_up, #image_down').attr('disabled', false);
-
-        } else if(selectStatus == 1) {
-            $('#image_right, #image_left').attr('disabled', true);
-
-            $('#image_up, #image_down').attr('disabled', false);
-
-        } else {
-            $('#image_right, #image_left').attr('disabled', true);
-
-            $('#image_up, #image_down').attr('disabled', true);
-
-        }
+        $('#' + prefix + '_up').attr('disabled', true);
+        $('#' + prefix + '_down').attr('disabled', true);
 
     }
 

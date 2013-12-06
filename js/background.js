@@ -1,5 +1,5 @@
 /**
-* ==  background ==
+* ==  background.js ==
 *
 *   @Author: 
 *       mutarock, mutarock@gmail.com
@@ -30,26 +30,26 @@ var g_default_value = {
 
 // build in search engine
 var g_build_in_seach_engines = [{
-            "name" : "google",
-            "url" : "http://www.google.com/search?hl=en&q=%s"
+            'name' : "google",
+            'url' : "http://www.google.com/search?hl=en&q=%s"
         }, {
-            "name" : "yahoo",
-            "url" : "http://search.yahoo.com/search?fr=crmas&p=%s"
+            'name' : "yahoo",
+            'url' : "http://search.yahoo.com/search?fr=crmas&p=%s"
         }, {
-            "name" : "wiki",
-            "url" : "http://en.wikipedia.org/w/index.php?search=%s"
+            'name' : "wiki",
+            'url' : "http://en.wikipedia.org/w/index.php?search=%s"
         }];
 
 
 // background.js startup
 window.onload = function() {
     initailize();
-    console.log("onload");
+    //console.log("onload");
 };
 
 // 初始化
 function initailize() {
-    console.log("initailize");
+    //console.log("initailize");
     for(var i in g_default_value) {
         if(localStorage[i] == undefined) {
             localStorage[i] = g_default_value[i];
@@ -57,7 +57,8 @@ function initailize() {
     }
 }
 
-function openNewTab(tabData) {
+// handle selected data from content script
+function handleSelectedData(tabData) {
 	//console.log("Background.js");
 
 	chrome.tabs.query({'currentWindow': true}, function(tabs){
@@ -65,7 +66,7 @@ function openNewTab(tabData) {
 		var newIndex = tabs.length;
 		var activeMode = activeOrNot(tabData);
 
-		console.log(activeMode);
+		console.log("ActiveMode: " + activeMode);
 		if (activeMode == 99) {
 			return;
 
@@ -86,38 +87,32 @@ function openNewTab(tabData) {
 			highLightCurrTab(tabData);
 
 		} else {
-			// Impossible.......
+            // Impossible.......
+            alert("Impossible.......");
 
 		}
-
-		// if (!tabData.isUrl)
-		// 	setSearchUrl(tabData);
-
-		// // open tab
-		// chrome.tabs.create({
-		// 					"url" : tabData.url,
-		// 					"active" : isActive,
-		// 					"index" : newIndex
-		// });
 
 	});
 }
 
 
 function openTab(tabData) {
-	if (!tabData.isUrl)
+    console.log(tabData);
+	if (!tabData.isUrl) {
 		setSearchUrl(tabData);
+    }
 
 	// open tab
 	chrome.tabs.create({
-					"url" : tabData.url,
-					"active" : tabData.isActive,
-					"index" : tabData.newIndex
+					url : tabData.url,
+					active : tabData.isActive,
+					index : tabData.newIndex
 	});
 
 }
 
 function updateCurrTab(tabData) {
+    console.log(tabData);
 	if (!tabData.isUrl)
 		setSearchUrl(tabData);
 
@@ -139,7 +134,18 @@ function highLightCurrTab(tabData) {
 	// }
 }
 
-
+function saveimage(tabData) 
+{
+    // Save image to download location if set, otherwise will ask where to
+    var anchor = document.createElement('a');
+    
+    // image url
+    anchor.href = tabData.url;
+    
+    // image file name
+    anchor.download = '';
+    anchor.click();
+}
 
 /****************************/
 /*            UP            */
@@ -153,93 +159,115 @@ function highLightCurrTab(tabData) {
 /*           DOWN           */
 /****************************/
 function activeOrNot(tabData) {
-	
-	if (!tabData.isUrl) {  // text
 
-        var mode = localStorage['text_gesture_mode'];
-        if(mode == 0) {
-            if(tabData.dirID % 2 == 0) {
-                return localStorage['text_down'];
-            } else {
-                return localStorage['text_up'];
-            }
+    var prefix;
 
-        } else if(mode == 1) {
-            switch(tabData.dirID) {
-                case 3:
-                case 5:
-                    return localStorage['text_up'];
-                
-                case 4:
-                case 6:
-                    return localStorage['text_down'];
-                
-                case 7:
-                case 8:
-                    return localStorage['text_right'];
-                
-                case 1:
-                case 2:
-                    return localStorage['text_left'];
+    if (!tabData.isUrl) {  // text	
+        prefix = "text";
 
-            }
+    } else {  // link or image
+        prefix = "link";
+    }
 
+    var mode = localStorage[prefix + '_gesture_mode'];
+    console.log("Mode: " + mode);
+    if(mode == 1) {  // Two way
+        if(tabData.dirID % 2 == 0) {
+            return localStorage[prefix+'_down'];
         } else {
-            return 99;
+            return localStorage[prefix+'_up'];
         }
 
-	}else {  // url or image
-		switch(tabData.dirID) {
-			case 0:
-				return localStorage['link_up'];
-				
-			case 1:
-				return localStorage['link_down'];
-				
-			case 2:
-				return localStorage['link_right'];
-				
-			case 3:
-				return localStorage['link_left'];
+    } else if(mode == 0) {  // Four way
+        switch(tabData.dirID) {
+            case 3:
+            case 5:
+                return localStorage[prefix+'_up'];
+                
+            case 4:
+            case 6:
+                return localStorage[prefix+'_down'];
+                
+            case 7:
+            case 8:
+                return localStorage[prefix+'_right'];
+                
+            case 1:
+            case 2:
+                return localStorage[prefix+'_left'];
 
-		}
-	}
+        }
+
+    } else {
+        return 99;
+    }
 
 }
 
 function setSearchUrl(tabData) {
 	var enginesIndex;
 
-	switch(tabData.dirID) {
-		case 0:
-			enginesIndex = localStorage['text_up_engine'];
-			break;
-				
-		case 1:
-			enginesIndex = localStorage['text_down_engine'];
-			break;
-				
-		case 2:
-			enginesIndex = localStorage['text_right_engine'];
-			break;
-				
-		case 3:
-			enginesIndex = localStorage['text_left_engine'];
-			break;
-	}
+    var mode = localStorage['text_gesture_mode'];
+
+    // console.log("Mode: " + mode);
+    // console.log("Dir: " + tabData.dirID);
+
+    if(mode == 1) {  // Two way
+        if(tabData.dirID % 2 == 0) {
+            enginesIndex = localStorage['text_down_engine'];
+        } else {
+            enginesIndex = localStorage['text_up_engine'];
+        }
+
+    } else if(mode == 0) {  // Four way
+        switch(tabData.dirID) {
+            case 3:
+            case 5:
+                enginesIndex = localStorage['text_up_engine'];
+                break;
+                
+            case 4:
+            case 6:
+                enginesIndex = localStorage['text_down_engine'];
+                break;
+                
+            case 7:
+            case 8:
+                enginesIndex = localStorage['text_right_engine'];
+                break;
+                
+            case 1:
+            case 2:
+                enginesIndex = localStorage['text_left_engine'];
+                break;
+
+        }
+
+    } else {
+        // Impossible.......
+        alert("Impossible.......");
+    }
+
+
+    // console.log(enginesIndex);
+    // console.log(g_build_in_seach_engines[enginesIndex]);
 
 	tabData.url = g_build_in_seach_engines[enginesIndex].url.replace(
 				"%s", tabData.url);
+
+    // console.log(tabData.url);
 }
 
+
+// add message listener
 chrome.runtime.onMessage.addListener(
 	function(request, sender, sendResponse) {
 		console.log(sender.tab ?
 					"from a content script:" + sender.tab.url :
 					"from the extension");
 
-		if (request.greeting == "openNewTab") {
-			openNewTab(request.data);
+		if (request.greeting == "handleSelectedData") {
+			handleSelectedData(request.data);
 			sendResponse({farewell: "goodbye"});
 		}
 });

@@ -106,21 +106,25 @@ function getDnDSelection(event) {
         node = node.parentNode;
     }
 
+    console.log(nodeName);
     console.log(event);
 
     if(node) {
         if(node.href.substr(0, 11) != "javascript:") {
+            //console.log("Link");
             dataType = "link";
             data = node.href;
         } 
 
     }else if(nodeName == "IMG") {
+            //console.log("Image");
             dataType = "img";
             //data = event.originalEvent.srcElement.src;
             data = event.target.src;
             console.log(event.target.src);
 
     }else {
+        //console.log("Text");
         data = event.dataTransfer.getData('Text');
         if(!data) {
             data = selection.toString();
@@ -145,12 +149,12 @@ function handleSelection(event) {
         if (_dnd_Data) {
             var newTab = generateTab(_dnd_Data);
 
-            console.log("----------");
-            console.log(_dirID);
-            console.log(newTab);
-            console.log("----------");
+            // console.log("----------");
+            // console.log(_dirID);
+            // console.log(newTab);
+            // console.log("----------");
 
-            chrome.runtime.sendMessage({greeting: "openNewTab", data: newTab}, function(response) {
+            chrome.runtime.sendMessage({greeting: "handleSelectedData", data: newTab}, function(response) {
                 console.log(response.farewell);
             });
             // return false;

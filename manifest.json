@@ -13,7 +13,9 @@
   "author": ["Ray Tseng(mutarock)", "BoRu Su(kilfu0701)"], 
 
   "permissions": [
-    "tabs"
+    "tabs",
+    "storage", 
+    "management" 
   ],
 
   // "browser_action": {
@@ -31,11 +33,14 @@
   // },
 
   "background": {
+      //"page": "html/background.html",
       "scripts": [ "js/common.js", "js/background.js" ]
    },
 
   "options_page": "html/options.html", 
+
   "content_security_policy": "script-src 'self' 'unsafe-eval'; object-src 'self'",
+
   "content_scripts": [{
     "js": [ "js/lib/jquery-1.10.2.js", "js/lib/jquery-ui.min.js", "js/exec.js" ],
     "matches": ["<all_urls>"],
