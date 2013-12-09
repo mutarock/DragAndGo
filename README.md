@@ -1,6 +1,5 @@
 DragAndGo
 =========
-***
 ***Google Extension - Drag url, image, text for open or search in new tab.*** 
 
 
