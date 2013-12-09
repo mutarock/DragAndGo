@@ -5,7 +5,7 @@ DragAndGo
 
 About Extension:
 --------
-DragAndGO is a chrome extension that let users open new tab with drag gesture in Chrome.
+DragAndGo is a chrome extension that let users open new tab with drag gesture in Chrome.
 
 ![snapshot](/images/snapshot.jpg "snapshot")
 
