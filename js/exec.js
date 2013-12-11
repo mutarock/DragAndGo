@@ -106,8 +106,8 @@ function getDnDSelection(event) {
         node = node.parentNode;
     }
 
-    console.log(nodeName);
-    console.log(event);
+    // console.log(nodeName);
+    // console.log(event);
 
     if(node) {
         if(node.href.substr(0, 11) != "javascript:") {

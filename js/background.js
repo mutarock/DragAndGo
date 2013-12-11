@@ -132,7 +132,21 @@ function highLightCurrTab(tabData) {
 	// 		alert ("The following text was not found:\n" + string);
 	// 	}
 	// }
+
+    //console.log(tabData);
+    //console.log("$(document.body).highlight('"+tabData.url+"')");
+    console.log("$(document.body).unhighlight().highlight('"+tabData.url+"')");
+    chrome.tabs.query({'currentWindow': true}, function(tabs) {
+        //console.log("COOOOOL");
+        // chrome.tabs.executeScript(null, {
+        //     code: 'document.body.style.backgroundColor="red"'
+        // });
+        chrome.tabs.executeScript(null, {
+            code: "$(document.body).unhighlight().highlight('"+tabData.url+"')"
+        });
+    });
 }
+
 
 function saveimage(tabData) 
 {
