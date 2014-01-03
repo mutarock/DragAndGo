@@ -50,6 +50,22 @@ $(document).ready(function(e) {
 
         } )
 
+
+        appendInputBox();
+        bindInputBoxEvents();
+        // var myDiv = $("<div>").attr("id", "DnGSearch-div");
+        // var myInput = $("<input>").attr("id", "DnGSearch-input");
+        // $(myDiv).append(myInput);
+        // $(document.body).append(myDiv);
+
+        // var imgURL = chrome.extension.getURL("html/inputBox.html");
+        // console.log(imgURL);
+        // $(document.body).append(imgURL);
+
+        // var $myDiv = $(document.body);
+        // var path = chrome.extension.getURL("html/inputBox.html");
+        // $myDiv.load(path);
+
 });
 
 jQuery.event.props.push('dataTransfer');
@@ -121,7 +137,7 @@ function getDnDSelection(event) {
             dataType = "img";
             //data = event.originalEvent.srcElement.src;
             data = event.target.src;
-            console.log(event.target.src);
+            //console.log(event.target.src);
 
     }else {
         //console.log("Text");
@@ -155,7 +171,7 @@ function handleSelection(event) {
             // console.log("----------");
 
             chrome.runtime.sendMessage({greeting: "handleSelectedData", data: newTab}, function(response) {
-                console.log(response.farewell);
+                //console.log(response.farewell);
             });
             // return false;
         }
@@ -197,3 +213,108 @@ function getUrlFromData(tabData, dndData) {
         }
     }
 }
+
+function appendInputBox() {
+    var containerDiv = $("<div>");
+
+    var searchDiv = $("<div>").attr("id", "DnGSearch-div");
+    var searchInput = $("<input>").attr("id", "DnGSearch-input");
+
+    var updownDiv = $("<div>").attr("id", "DnGSearch-updown");
+    var upDiv = $("<div>").attr("id", "DnGSearch-up");
+    var downDiv = $("<div>").attr("id", "DnGSearch-down");
+    
+    var closeDiv = $("<div>").attr("id", "DnGSearch-close");
+
+    var counterLabel = $("<label>").attr("id", "DnGSearch-counter");
+    
+    //$(updownDiv).append(upDiv);
+    //$(updownDiv).append(downDiv);
+    
+    $(searchDiv).append(searchInput);
+    //$(searchDiv).append(updownDiv);
+    $(searchDiv).append(closeDiv);
+    $(searchDiv).append(counterLabel);
+
+    $(containerDiv).append(searchDiv);
+    $(document.body).append(containerDiv);
+
+}
+
+function bindInputBoxEvents() {
+
+    $("#DnGSearch-input").on('input', function(event){ 
+        highlightKeyWord(event.target.value);
+    });
+
+
+    $("#DnGSearch-up").on("click", function() {
+        moveHighlightPos(1);
+    });
+    
+
+    $("#DnGSearch-down").on("click", function() {
+        moveHighlightPos(-1);
+    });
+
+
+    $("#DnGSearch-close").on("click", function() {
+        showInputBox( 
+            { 'show': false }
+        );
+    });
+}
+
+
+function highlightKeyWord(string) {
+    
+    //console.log("====  " + string + "  ====");
+
+    // send keyword to background.js for highlight
+    chrome.runtime.sendMessage({greeting: "highlightKeyWord", data: string}, function(response) {
+        //console.log(response.farewell);
+    });
+
+}
+
+function moveHighlightPos(posValue) {
+    
+    if(posValue == 1) {
+        console.log("UP");
+    }else {
+        console.log("DOWN");
+    }
+
+}
+
+function showInputBox(data) {
+
+    if(data.show) {
+        //console.log("SHOW");
+
+        var string = data.message.keyword;
+        //console.log(string);
+
+        $('#DnGSearch-div').css('display', 'block');
+        $('#DnGSearch-input').val(string);
+
+    } else {
+        //console.log("CLOSE");
+
+        highlightKeyWord("");
+        $('#DnGSearch-div').css('display', 'none');
+
+    }
+
+}
+
+
+
+// add message listener for search and highlight word
+chrome.runtime.onMessage.addListener(
+    function(request, sender, sendResponse) {
+        //console.log(request);
+        showInputBox( 
+            { 'show': true, 'message': request }
+        );
+});

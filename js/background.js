@@ -66,7 +66,7 @@ function handleSelectedData(tabData) {
 		var newIndex = tabs.length;
 		var activeMode = activeOrNot(tabData);
 
-		console.log("ActiveMode: " + activeMode);
+		//console.log("ActiveMode: " + activeMode);
 		if (activeMode == 99) {
 			return;
 
@@ -97,7 +97,7 @@ function handleSelectedData(tabData) {
 
 
 function openTab(tabData) {
-    console.log(tabData);
+    //console.log(tabData);
 	if (!tabData.isUrl) {
 		setSearchUrl(tabData);
     }
@@ -112,7 +112,7 @@ function openTab(tabData) {
 }
 
 function updateCurrTab(tabData) {
-    console.log(tabData);
+    //console.log(tabData);
 	if (!tabData.isUrl)
 		setSearchUrl(tabData);
 
@@ -135,18 +135,44 @@ function highLightCurrTab(tabData) {
 
     //console.log(tabData);
     //console.log("$(document.body).highlight('"+tabData.url+"')");
-    console.log("$(document.body).unhighlight().highlight('"+tabData.url+"')");
-    chrome.tabs.query({'currentWindow': true}, function(tabs) {
-        //console.log("COOOOOL");
-        // chrome.tabs.executeScript(null, {
-        //     code: 'document.body.style.backgroundColor="red"'
-        // });
+    var string = String(tabData.url);
+    //console.log("$(document.body).unhighlight().highlight('" + string + "')");
+
+    chrome.tabs.query({'currentWindow': true, 'active': true}, function(tabs) {
+
+        // unhighlight previous word then highlight current search word
         chrome.tabs.executeScript(null, {
-            code: "$(document.body).unhighlight().highlight('"+tabData.url+"')"
+            code: "$(document.body).unhighlight().highlight('" + string + "')"
         });
+
+
+        // send message back to tab
+        chrome.tabs.sendMessage(tabs[0].id, {'message': "HighLightSuccess", 'keyword': string}, function(response) {
+            //console.log(response.farewell);
+        });
+
+
     });
 }
 
+function highLightWord(str) {
+
+    chrome.tabs.query({'currentWindow': true, 'active': true}, function(tabs) {
+
+        // unhighlight previous word then highlight current search word
+        if(str != "") {
+            chrome.tabs.executeScript(null, {
+                code: "$(document.body).unhighlight().highlight('" + str + "')"
+            });
+
+        } else {
+            chrome.tabs.executeScript(null, {
+                code: "$(document.body).unhighlight()"
+            });
+        }
+
+    });
+}
 
 function saveimage(tabData) 
 {
@@ -184,7 +210,7 @@ function activeOrNot(tabData) {
     }
 
     var mode = localStorage[prefix + '_gesture_mode'];
-    console.log("Mode: " + mode);
+    //console.log("Mode: " + mode);
     if(mode == 1) {  // Two way
         if(tabData.dirID % 2 == 0) {
             return localStorage[prefix+'_down'];
@@ -282,6 +308,11 @@ chrome.runtime.onMessage.addListener(
 
 		if (request.greeting == "handleSelectedData") {
 			handleSelectedData(request.data);
-			sendResponse({farewell: "goodbye"});
-		}
+			sendResponse({farewell: "handleSelected"});
+
+		} else if (request.greeting == "highlightKeyWord") {
+            highLightWord(request.data);
+            sendResponse({farewell: "highlight"});
+
+        }
 });

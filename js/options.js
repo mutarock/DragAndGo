@@ -27,7 +27,7 @@ $(document).ready(function(e) {
             {value: '0', title: '在前景新分頁中搜尋'},
             {value: '1', title: '在背景新分頁中搜尋'},
             {value: '2', title: '在目前分頁中搜尋'},
-            //{value: '3', title: '在當前頁面找尋文字並Highlight'},
+            {value: '3', title: '在當前頁面找尋文字並Highlight'},
             {value: '99', title: '無動作'}
         ];
         
