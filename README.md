@@ -21,7 +21,7 @@ To Do List:
 -----
 Please contact with me if finding any bug or having any suggestion.
 
-Current Version: **0.1.0 @ 2013/12/09**
+Current Version: **0.1.1 @ 2014/01/03**
 
 This Chrome Extension is written by **mutarock** *([contact with me](mailto:mutarock@gmail.com))*  
 Special thanks to *[kilfu0701](https://github.com/kilfu0701)*
