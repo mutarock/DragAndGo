@@ -154,6 +154,8 @@ $(document).ready(function(e) {
         // binging on change events
         bindRadioEvents();
     });
+    
+    loadAboutMe();
 
 });
 
@@ -275,4 +277,24 @@ function changeSelectStatus(selectName, selectStatus) {
 
     }
 
+}
+
+function loadAboutMe() {
+
+    /* Load About.md into HTML */
+    var xhr = new XMLHttpRequest();
+    xhr.onreadystatechange = function() {
+        if (xhr.readyState == 4) {
+            var src = xhr.responseText;
+            
+            var converter = new Showdown.converter();
+            var cvt = converter.makeHtml(src);
+            $('#tabs-4 > fieldset > div:eq(0)').append(cvt);
+            $('#tabs-4 > fieldset > div:eq(0) a').each(function(i,v){
+                $(v).attr('target', '_blank');
+            });
+        }
+    }
+    xhr.open("GET", "/README.md", false);
+    xhr.send();
 }
