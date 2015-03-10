@@ -42,6 +42,7 @@ $(document).ready(function(e) {
             {value: '0', title: '在前景新分頁中打開連結'},
             {value: '1', title: '在背景新分頁中打開連結'},
             {value: '2', title: '在目前分頁中打開連結'},
+            {value: '4', title: '儲存圖片'},
             {value: '99', title: '無動作'}
         ];
         

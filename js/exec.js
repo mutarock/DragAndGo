@@ -10,61 +10,46 @@ var _start_y = 0;
 var _dirID = 0;
 var _dnd_Data;
 
+
 $(document).ready(function(e) {
 
     $(document)
-        .on( "dragstart", function( event, ui ) {
-            //e.preventDefault();
+        .on("dragstart", function(event, ui) {
             _start_x = window.event.x;
             _start_y = window.event.y;
 
             _dnd_Data = getDnDSelection(event);
-            //return false;
         } )
 
-        .on( "drag", function( event, ui ) {
+        .on("drag", function(event, ui) {
             var new_Dir = getDirID();
             if(new_Dir != _dirID) {
                 _dirID = new_Dir;
             }
         } )
 
-        .on( "dragend", function( event, ui ) {
-            //e.preventDefault();
+        .on("dragend", function(event, ui) {
             //console.log(_dirID);
             handleSelection(event);
-            //return false;
         } )
 
-        .on( "dragover", function( event, ui ) {
+        .on("dragover", function(event, ui) {
             if (event.preventDefault) {
                 event.preventDefault();
             }
 
             event.dataTransfer.effectAllowed = "copy";
             event.dataTransfer.dropEffect = "copy";
-            //return false;
         } )
 
-        .on( "drop", function( event, ui ) {
+        .on("drop", function(event, ui) {
 
         } )
 
 
+        // Use for highlight text when searching keyword
         appendInputBox();
         bindInputBoxEvents();
-        // var myDiv = $("<div>").attr("id", "DnGSearch-div");
-        // var myInput = $("<input>").attr("id", "DnGSearch-input");
-        // $(myDiv).append(myInput);
-        // $(document.body).append(myDiv);
-
-        // var imgURL = chrome.extension.getURL("html/inputBox.html");
-        // console.log(imgURL);
-        // $(document.body).append(imgURL);
-
-        // var $myDiv = $(document.body);
-        // var path = chrome.extension.getURL("html/inputBox.html");
-        // $myDiv.load(path);
 
 });
 
@@ -111,6 +96,7 @@ function getDirID() {
     }
 }
 
+
 function getDnDSelection(event) {
     var data;
     var dataType = "text";
@@ -118,12 +104,11 @@ function getDnDSelection(event) {
     var nodeName = node.nodeName;
     var selection = window.getSelection();
 
+    console.log(event);
+
     while (node && node.nodeName != "A") {
         node = node.parentNode;
     }
-
-    // console.log(nodeName);
-    // console.log(event);
 
     if(node) {
         if(node.href.substr(0, 11) != "javascript:") {
@@ -134,6 +119,7 @@ function getDnDSelection(event) {
 
     }else if(nodeName == "IMG") {
             //console.log("Image");
+            
             dataType = "img";
             //data = event.originalEvent.srcElement.src;
             data = event.target.src;
@@ -141,6 +127,7 @@ function getDnDSelection(event) {
 
     }else {
         //console.log("Text");
+
         data = event.dataTransfer.getData('Text');
         if(!data) {
             data = selection.toString();
@@ -148,11 +135,16 @@ function getDnDSelection(event) {
 
     }
 
+
+    var domain = event.currentTarget.domain;
+
     return {
         "dataType" : dataType,
-        "data" : data
+        "data" : data,
+        "domain" : domain
     }
 }
+
 
 function handleSelection(event) {
     // var now_x = window.event.x;
@@ -178,17 +170,20 @@ function handleSelection(event) {
     }
 }
 
+
 function generateTab(dndData) {
     var tabData = new Object();
     
-    tabData.message = "tab";
+    //tabData.message = "tab";
+    tabData.message = dndData.dataType;
     tabData.dirID = _dirID;
     
     getUrlFromData(tabData, dndData);
-
+    tabData.domain = dndData.domain;
     //console.log(tabData);
     return tabData;
 }
+
 
 function getUrlFromData(tabData, dndData) {
     //var url_regex = /[a-zA-Z]+:\/\/[^\s]*/;
@@ -213,6 +208,7 @@ function getUrlFromData(tabData, dndData) {
         }
     }
 }
+
 
 function appendInputBox() {
     var containerDiv = $("<div>");
@@ -240,6 +236,7 @@ function appendInputBox() {
     $(document.body).append(containerDiv);
 
 }
+
 
 function bindInputBoxEvents() {
 
@@ -277,6 +274,7 @@ function highlightKeyWord(string) {
 
 }
 
+
 function moveHighlightPos(posValue) {
     
     if(posValue == 1) {
@@ -286,6 +284,7 @@ function moveHighlightPos(posValue) {
     }
 
 }
+
 
 function showInputBox(data) {
 

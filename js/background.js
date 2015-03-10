@@ -41,6 +41,8 @@ var g_build_in_seach_engines = [{
         }];
 
 
+var folderPath = 'DradAndGo'
+
 // background.js startup
 window.onload = function() {
     initailize();
@@ -59,79 +61,83 @@ function initailize() {
 
 // handle selected data from content script
 function handleSelectedData(tabData) {
-	//console.log("Background.js");
 
-	chrome.tabs.query({'currentWindow': true}, function(tabs){
-		//console.log(tabs.length);
-		var newIndex = tabs.length;
-		var activeMode = activeOrNot(tabData);
+    //console.log(tabData);
 
-		//console.log("ActiveMode: " + activeMode);
-		if (activeMode == 99) {
-			return;
+    chrome.tabs.query({'currentWindow': true}, function(tabs){
+        //console.log(tabs.length);
+        var newIndex = tabs.length;
+        var activeMode = activeOrNot(tabData);
 
-		} else if (activeMode == 0) {
-			tabData.isActive = true;
-			tabData.newIndex = newIndex;
-			openTab(tabData);
+        //console.log("ActiveMode: " + activeMode);
+        if (activeMode == 99) {
+            return;
 
-		} else if (activeMode == 1) {
-			tabData.isActive = false;
-			tabData.newIndex = newIndex;
-			openTab(tabData);
+        } else if (activeMode == 0) {
+            tabData.isActive = true;
+            tabData.newIndex = newIndex;
+            openTab(tabData);
 
-		} else if (activeMode == 2) {
-			updateCurrTab(tabData);
+        } else if (activeMode == 1) {
+            tabData.isActive = false;
+            tabData.newIndex = newIndex;
+            openTab(tabData);
 
-		} else if (activeMode == 3) {
-			highLightCurrTab(tabData);
+        } else if (activeMode == 2) {
+            updateCurrTab(tabData);
 
-		} else {
+        } else if (activeMode == 3) {
+            highLightCurrTab(tabData);
+
+        } else if (activeMode == 4) {
+            saveImageToFolder(tabData);
+
+        }else {
             // Impossible.......
             alert("Impossible.......");
 
-		}
+        }
 
-	});
+    });
 }
 
 
 function openTab(tabData) {
     //console.log(tabData);
-	if (!tabData.isUrl) {
-		setSearchUrl(tabData);
+    if (!tabData.isUrl) {
+        setSearchUrl(tabData);
     }
 
-	// open tab
-	chrome.tabs.create({
-					url : tabData.url,
-					active : tabData.isActive,
-					index : tabData.newIndex
-	});
+    // open tab
+    chrome.tabs.create({
+            url : tabData.url,
+            active : tabData.isActive,
+            index : tabData.newIndex
+    });
 
 }
 
 function updateCurrTab(tabData) {
     //console.log(tabData);
-	if (!tabData.isUrl)
-		setSearchUrl(tabData);
+    if (!tabData.isUrl)
+        setSearchUrl(tabData);
 
-	chrome.tabs.getSelected(null, function (tab) {
-		chrome.tabs.update(tab.id, {url: tabData.url});
-	});
+    chrome.tabs.getSelected(null, function (tab) {
+        chrome.tabs.update(tab.id, {url: tabData.url});
+    });
 
 }
 
 function highLightCurrTab(tabData) {
-	// if (window.find) {
+    // if (window.find) {
 
-	// 	var string = String(tabData.url);
-	// 	console.log(string);
-	// 	var found = window.find(string, false, false, false, true, false, false);
-	// 	if (!found) {
-	// 		alert ("The following text was not found:\n" + string);
-	// 	}
-	// }
+    //  var string = String(tabData.url);
+    //  console.log(string);
+    //  var found = window.find(string, false, false, false, true, false, false);
+    //  if (!found) {
+    //      alert ("The following text was not found:\n" + string);
+    //  }
+    // }
 
     //console.log(tabData);
     //console.log("$(document.body).highlight('"+tabData.url+"')");
@@ -174,8 +180,7 @@ function highLightWord(str) {
     });
 }
 
-function saveimage(tabData) 
-{
+function saveimage(tabData) {
     // Save image to download location if set, otherwise will ask where to
     var anchor = document.createElement('a');
     
@@ -186,6 +191,47 @@ function saveimage(tabData)
     anchor.download = '';
     anchor.click();
 }
+
+
+function saveImageToFolder(tabData) {
+
+    var fileName = getSavePath(tabData.url, tabData.domain);
+
+    var downloadInfo = {
+        url : tabData.url,
+        filename : fileName,
+        conflictAction: 'uniquify'
+    };
+
+    chrome.downloads.download(downloadInfo, function(id) {});
+
+}
+
+
+function getSavePath(fileUrl, urlDomain) {
+
+    var fileName = 'test.png'
+
+    var url_regex_alter = /\/(1)[^\s]*\.(jpg|jpeg|png|gif)/;
+    var matches = fileUrl.match(url_regex_alter);
+    if (matches) {
+        fileName = matches[0];
+    }
+
+
+    var savePath = '';
+    if(urlDomain == null) {
+        savePath = folderPath + fileName;
+    
+    }else {
+        savePath = folderPath + '/' + urlDomain + fileName;
+    
+    }
+
+    console.log(savePath);
+    return savePath;
+}
+
 
 /****************************/
 /*            UP            */
@@ -202,12 +248,20 @@ function activeOrNot(tabData) {
 
     var prefix;
 
-    if (!tabData.isUrl) {  // text	
+    if (!tabData.isUrl) {  // text  
         prefix = "text";
 
     } else {  // link or image
-        prefix = "link";
+
+        if (tabData.message == "link") {
+            prefix = "link";
+        
+        } else if (tabData.message == "img") {
+            prefix = 'image';
+        }
     }
+
+    //console.log(prefix);
 
     var mode = localStorage[prefix + '_gesture_mode'];
     //console.log("Mode: " + mode);
@@ -245,7 +299,7 @@ function activeOrNot(tabData) {
 }
 
 function setSearchUrl(tabData) {
-	var enginesIndex;
+    var enginesIndex;
 
     var mode = localStorage['text_gesture_mode'];
 
@@ -292,8 +346,8 @@ function setSearchUrl(tabData) {
     // console.log(enginesIndex);
     // console.log(g_build_in_seach_engines[enginesIndex]);
 
-	tabData.url = g_build_in_seach_engines[enginesIndex].url.replace(
-				"%s", tabData.url);
+    tabData.url = g_build_in_seach_engines[enginesIndex].url.replace(
+                "%s", tabData.url);
 
     // console.log(tabData.url);
 }
@@ -301,16 +355,16 @@ function setSearchUrl(tabData) {
 
 // add message listener
 chrome.runtime.onMessage.addListener(
-	function(request, sender, sendResponse) {
-		console.log(sender.tab ?
-					"from a content script:" + sender.tab.url :
-					"from the extension");
+    function(request, sender, sendResponse) {
+        console.log(sender.tab ?
+                    "from a content script:" + sender.tab.url :
+                    "from the extension");
 
-		if (request.greeting == "handleSelectedData") {
-			handleSelectedData(request.data);
-			sendResponse({farewell: "handleSelected"});
+        if (request.greeting == "handleSelectedData") {
+            handleSelectedData(request.data);
+            sendResponse({farewell: "handleSelected"});
 
-		} else if (request.greeting == "highlightKeyWord") {
+        } else if (request.greeting == "highlightKeyWord") {
             highLightWord(request.data);
             sendResponse({farewell: "highlight"});
 
