@@ -210,7 +210,7 @@ function getSavePath(fileUrl, urlDomain) {
     //fileName = fileUrl.replace(/^.*(\\|\/|\:)/, '');
     fileName = fileUrl.split('\\').pop().split('/').pop();
 
-    var url_regex_alter = /(1)[^\s]*\.(jpg|jpeg|png|gif)/;
+    var url_regex_alter = /[^\s]*\.(jpg|jpeg|png|gif)/;
     var matches = fileName.match(url_regex_alter);
     if (matches) {
         fileName = matches[0];
