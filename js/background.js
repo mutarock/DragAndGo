@@ -1,7 +1,7 @@
 /**
 * ==  background.js ==
 *
-*   @Author: 
+*   @Author:
 *       mutarock, mutarock@gmail.com
 **/
 
@@ -41,15 +41,15 @@ var g_build_in_seach_engines = [{
         }];
 
 
-var folderPath = 'DradAndGo'
+var folderPath = "DragAndGo"
 
 // background.js startup
 window.onload = function() {
     initailize();
-    //console.log("onload");
+    console.log("DragAndGo onload");
 };
 
-// 初始化
+// initailize
 function initailize() {
     //console.log("initailize");
     for(var i in g_default_value) {
@@ -103,7 +103,6 @@ function handleSelectedData(tabData) {
 
 
 function openTab(tabData) {
-    //console.log(tabData);
     if (!tabData.isUrl) {
         setSearchUrl(tabData);
     }
@@ -118,7 +117,6 @@ function openTab(tabData) {
 }
 
 function updateCurrTab(tabData) {
-    //console.log(tabData);
     if (!tabData.isUrl)
         setSearchUrl(tabData);
 
@@ -139,7 +137,6 @@ function highLightCurrTab(tabData) {
     //  }
     // }
 
-    //console.log(tabData);
     //console.log("$(document.body).highlight('"+tabData.url+"')");
     var string = String(tabData.url);
     //console.log("$(document.body).unhighlight().highlight('" + string + "')");
@@ -183,10 +180,10 @@ function highLightWord(str) {
 function saveimage(tabData) {
     // Save image to download location if set, otherwise will ask where to
     var anchor = document.createElement('a');
-    
+
     // image url
     anchor.href = tabData.url;
-    
+
     // image file name
     anchor.download = '';
     anchor.click();
@@ -194,7 +191,6 @@ function saveimage(tabData) {
 
 
 function saveImageToFolder(tabData) {
-
     var fileName = getSavePath(tabData.url, tabData.domain);
 
     var downloadInfo = {
@@ -209,26 +205,18 @@ function saveImageToFolder(tabData) {
 
 
 function getSavePath(fileUrl, urlDomain) {
-
     var fileName = 'test.png'
 
-    var url_regex_alter = /\/(1)[^\s]*\.(jpg|jpeg|png|gif)/;
-    var matches = fileUrl.match(url_regex_alter);
-    if (matches) {
-        fileName = matches[0];
-    }
-
-
-    var savePath = '';
+    //fileName = fileUrl.replace(/^.*(\\|\/|\:)/, '');
+    fileName = fileUrl.split('\\').pop().split('/').pop();
+    console.log(fileName);
+    var savePath = "";
     if(urlDomain == null) {
-        savePath = folderPath + fileName;
-    
+        savePath = folderPath + "/" + fileName;
     }else {
-        savePath = folderPath + '/' + urlDomain + fileName;
-    
+        savePath = folderPath + "/" + urlDomain + "/" + fileName;
     }
 
-    console.log(savePath);
     return savePath;
 }
 
@@ -248,14 +236,14 @@ function activeOrNot(tabData) {
 
     var prefix;
 
-    if (!tabData.isUrl) {  // text  
+    if (!tabData.isUrl) {  // text
         prefix = "text";
 
     } else {  // link or image
 
         if (tabData.message == "link") {
             prefix = "link";
-        
+
         } else if (tabData.message == "img") {
             prefix = 'image';
         }
@@ -277,15 +265,15 @@ function activeOrNot(tabData) {
             case 3:
             case 5:
                 return localStorage[prefix+'_up'];
-                
+
             case 4:
             case 6:
                 return localStorage[prefix+'_down'];
-                
+
             case 7:
             case 8:
                 return localStorage[prefix+'_right'];
-                
+
             case 1:
             case 2:
                 return localStorage[prefix+'_left'];
@@ -319,17 +307,17 @@ function setSearchUrl(tabData) {
             case 5:
                 enginesIndex = localStorage['text_up_engine'];
                 break;
-                
+
             case 4:
             case 6:
                 enginesIndex = localStorage['text_down_engine'];
                 break;
-                
+
             case 7:
             case 8:
                 enginesIndex = localStorage['text_right_engine'];
                 break;
-                
+
             case 1:
             case 2:
                 enginesIndex = localStorage['text_left_engine'];
